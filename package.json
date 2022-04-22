@@ -1,0 +1,25 @@
+{
+  "name": "appsync-backend",
+  "version": "1.0.0",
+  "description": "Backend for AppSync masterclass course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls": "sls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheDistanceHQ/appsync-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheDistanceHQ/appsync-backend/issues"
+  },
+  "homepage": "https://github.com/TheDistanceHQ/appsync-backend#readme",
+  "devDependencies": {
+    "serverless": "^3.15.1",
+    "serverless-appsync-plugin": "^1.13.0"
+  }
+}
