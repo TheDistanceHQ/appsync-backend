@@ -1,2 +1,21 @@
 name: appsyncapi
 schema: schema.api.graphql
+authenticationType: AMAZON_COGNITO_USER_POOLS
+userPoolConfig:
+  awsRegion: eu-west-1
+  defaultAction: ALLOW
+  userPoolId: !Ref AppsyncBackendUserPool
+mappingTemplatesLocation: mapping-templates
+datasources:
+  - type: NONE
+    name: none
+  - type: AMAZON_DYNAMODB
+    name: usersTable
+    config:
+      tableName: { Ref: Users }
+      # serviceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+mappingTemplates:
+  - type: Query
+    field: getMyProfile
+    dataSource: usersTable
+
