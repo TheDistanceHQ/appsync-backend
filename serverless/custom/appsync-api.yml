@@ -13,7 +13,6 @@ datasources:
     name: usersTable
     config:
       tableName: { Ref: Users }
-      # serviceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
 mappingTemplates:
   - type: Query
     field: getMyProfile

@@ -1,0 +1,30 @@
+Resources:
+  AppsyncDynamoDBRole:
+      Type: "AWS::IAM::Role"
+      Properties:
+        RoleName: appsync-backend-app-dynamodb-role
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Effect: "Allow"
+              Principal:
+                Service:
+                  - "appsync.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+        Policies:
+          -
+            PolicyName: "AppSyncBackendRolePolicy"
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "dynamodb:Query"
+                    - "dynamodb:GetItem"
+                    - "dynamodb:Scan"
+                    - "dynamodb:PutItem"
+                  Resource:
+                    - { Fn::GetAtt: [ Users, Arn ] }
