@@ -4,6 +4,7 @@ schema {
 }
 
 type Query {
+  getImageUploadUrl(extension: String, contentType: String): AWSURL!
   getMyProfile: MyProfile!
   getOtherProfile(screenName: String!): OtherProfile!
   getTweets(userId: ID!, limit: Int!, nextToken: String): TweetPage!

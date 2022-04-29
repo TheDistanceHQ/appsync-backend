@@ -1,12 +1,21 @@
 Resources:
   AppsyncapiGraphQlDsusersTable:
-      Type: "AWS::AppSync::DataSource"
-      Properties:
-        ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
-        Name: UsersTable
-        Type: AMAZON_DYNAMODB
-        ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
-        DynamoDBConfig:
-          AwsRegion: ${self:custom.region}
-          TableName: !Ref Users
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: UsersTable
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+      DynamoDBConfig:
+        AwsRegion: ${self:custom.region}
+        TableName: !Ref Users
+  AppsyncapiGraphQlDsgetImageUploadUrlFunction:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: ImageUpload
+      Type: AWS_LAMBDA
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
+      LambdaConfig:
+        LambdaFunctionArn: { Fn::GetAtt: [GetImageUploadUrlLambdaFunction, Arn] }
   

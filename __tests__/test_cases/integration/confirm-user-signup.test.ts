@@ -9,7 +9,7 @@ const chance = Chance.Chance();
 const docClient = new DynamoDB.DocumentClient({region: process.env.AWS_REGION});
 const user_table = process.env.USERS_TABLE;
 
-const random_user = () => {
+export const random_user = () => {
   const firstName = chance.first({nationality: 'en'});
   const lastName = chance.first({nationality: 'en'});
   const suffix = chance.string({length:4, pool: 'abcdefghijklmnopqrstuvwxyz'})

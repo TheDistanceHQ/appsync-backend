@@ -26,7 +26,16 @@ functions:
       - Effect: Allow
         Action: dynamodb:PutItem
         Resource: !GetAtt Users.Arn
-
+  getImageUploadUrl:
+    handler: functions/get-upload-url.handler
+    environment:
+      BUCKET_NAME: !Ref AssetBucket
+    iamRoleStatements:
+      - Effect: Allow
+        Action: 
+          - S3:PutObject
+          - S3:PutObjectAcl
+        Resource: !Sub ${AssetBucket.Arn}/*
 resources:
   # Dynamo tables
   - ${file(serverless/resources/dynamo-tables.yml)}
@@ -36,6 +45,8 @@ resources:
   - ${file(serverless/resources/service-roles.yml)}
   # Appsync datasources
   - ${file(serverless/resources/appsync-datasources.yml)}
+  # S3 bucket
+  - ${file(serverless/resources/s3.yml)}
 package:
   exclude:
     - package-lock.json

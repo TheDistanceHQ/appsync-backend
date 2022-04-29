@@ -13,8 +13,19 @@ datasources:
     name: usersTable
     config:
       tableName: { Ref: Users }
+  - type: AWS_LAMBDA
+    name: getImageUploadUrlFunction
+    config:
+      functionName: getImageUploadUrl
 mappingTemplates:
   - type: Query
     field: getMyProfile
     dataSource: usersTable
-
+  - type: Query
+    field: getImageUploadUrl
+    dataSource: getImageUploadUrlFunction
+    request: false
+    response: false
+  - type: Mutation
+    field: editMyProfile
+    dataSource: usersTable
