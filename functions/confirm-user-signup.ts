@@ -1,8 +1,8 @@
-const DynamoDB = require('aws-sdk/clients/dynamodb')
+import DynamoDB  from 'aws-sdk/clients/dynamodb';
 const { USERS_TABLE } = process.env;
 const DocClient = new  DynamoDB.DocumentClient({region: process.env.AWS_REGION});
 
-module.exports.handler = async (event) => {
+export const handler = async (event: any) => {
   if (event.triggerSource == 'PostConfirmation_ConfirmSignUp') {
     const user = {
       id: event.userName,

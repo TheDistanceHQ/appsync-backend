@@ -18,4 +18,13 @@ Resources:
       ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
       LambdaConfig:
         LambdaFunctionArn: { Fn::GetAtt: [GetImageUploadUrlLambdaFunction, Arn] }
+  AppsyncapiGraphQlDstweetFunction:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: Tweet
+      Type: AWS_LAMBDA
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
+      LambdaConfig:
+        LambdaFunctionArn: { Fn::GetAtt: [TweetLambdaFunction, Arn] }
   

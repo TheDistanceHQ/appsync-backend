@@ -55,4 +55,5 @@ Resources:
                 Action:
                   - "lambda:invokeFunction"
                 Resource:
-                  - !GetAtt GetImageUploadUrlLambdaFunction.Arn     
+                  - !GetAtt GetImageUploadUrlLambdaFunction.Arn    
+                  - !GetAtt TweetLambdaFunction.Arn
