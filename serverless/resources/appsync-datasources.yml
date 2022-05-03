@@ -27,4 +27,23 @@ Resources:
       ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
       LambdaConfig:
         LambdaFunctionArn: { Fn::GetAtt: [TweetLambdaFunction, Arn] }
-  
+  AppsyncapiGraphQlDstweetsTable:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: TweetsTable
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+      DynamoDBConfig:
+        AwsRegion: ${self:custom.region}
+        TableName: !Ref Tweets
+  AppsyncapiGraphQlDstimelinesTable:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: TimelinesTable
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+      DynamoDBConfig:
+        AwsRegion: ${self:custom.region}
+        TableName: !Ref Timelines

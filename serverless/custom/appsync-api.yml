@@ -13,6 +13,14 @@ datasources:
     name: usersTable
     config:
       tableName: { Ref: Users }
+  - type: AMAZON_DYNAMODB
+    name: timelinesTable
+    config:
+      tableName: { Ref: Timelines }
+  - type: AMAZON_DYNAMODB
+    name: tweetsTable
+    config:
+      tableName: { Ref: Tweets }
   - type: AWS_LAMBDA
     name: getImageUploadUrlFunction
     config:
@@ -22,6 +30,7 @@ datasources:
     config:
       functionName: tweet
 mappingTemplates:
+#QUERIES
   - type: Query
     field: getMyProfile
     dataSource: usersTable
@@ -30,6 +39,13 @@ mappingTemplates:
     dataSource: getImageUploadUrlFunction
     request: false
     response: false
+  - type: Query
+    field: getTweets
+    dataSource: tweetsTable
+  - type: Query
+    field: getMyTimeline
+    dataSource: timelinesTable
+#MUTATIONS
   - type: Mutation
     field: editMyProfile
     dataSource: usersTable
@@ -38,3 +54,12 @@ mappingTemplates:
     dataSource: tweetFunction
     request: false
     response: false
+#NESTED FIELDS
+  - type: Tweet
+    field: profile
+    dataSource: usersTable
+  - type: TimelinePage
+    field: tweets
+    dataSource: tweetsTable
+substitutions:
+  TweetsTable: !Ref Tweets
