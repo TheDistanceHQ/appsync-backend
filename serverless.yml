@@ -4,6 +4,7 @@ plugins:
   - serverless-appsync-plugin
   - serverless-iam-roles-per-function
   - serverless-export-env
+  - serverless-webpack
 provider:
   name: aws
   runtime: nodejs12.x
@@ -36,6 +37,21 @@ functions:
           - S3:PutObject
           - S3:PutObjectAcl
         Resource: !Sub ${AssetBucket.Arn}/*
+  tweet:
+    handler: functions/tweets.handler
+    environment:
+      USERS_TABLE: !Ref Users
+      TWEETS_TABLE: !Ref Tweets
+      TIMELINES_TABLE: !Ref Timelines
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: !GetAtt Users.Arn
+      - Effect: Allow
+        Action: dynamodb:PutItem
+        Resource:
+          - !GetAtt Tweets.Arn
+          - !GetAtt Timelines.Arn
 resources:
   # Dynamo tables
   - ${file(serverless/resources/dynamo-tables.yml)}
