@@ -21,6 +21,10 @@ datasources:
     name: tweetsTable
     config:
       tableName: { Ref: Tweets }
+  - type: AMAZON_DYNAMODB
+    name: likesTable
+    config:
+      tableName: { Ref: Likes }
   - type: AWS_LAMBDA
     name: getImageUploadUrlFunction
     config:
@@ -54,6 +58,9 @@ mappingTemplates:
     dataSource: tweetFunction
     request: false
     response: false
+  - type: Mutation
+    field: like
+    dataSource: likesTable
 #NESTED FIELDS
   - type: Tweet
     field: profile
@@ -63,3 +70,5 @@ mappingTemplates:
     dataSource: tweetsTable
 substitutions:
   TweetsTable: !Ref Tweets
+  LikesTable: !Ref Likes
+  UsersTable: !Ref Users

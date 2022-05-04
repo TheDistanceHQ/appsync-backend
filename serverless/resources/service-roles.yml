@@ -33,6 +33,7 @@ Resources:
                     - { Fn::GetAtt: [ Users, Arn ] }
                     - { Fn::GetAtt: [ Tweets, Arn ] }
                     - { Fn::GetAtt: [ Timelines, Arn ] }
+                    - { Fn::GetAtt: [ Likes, Arn ] }
                     - !Sub ${Tweets.Arn}/*
   AppsyncLambdaInvokeRole:
     Type: "AWS::IAM::Role"

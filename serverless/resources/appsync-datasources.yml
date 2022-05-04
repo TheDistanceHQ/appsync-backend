@@ -47,3 +47,13 @@ Resources:
       DynamoDBConfig:
         AwsRegion: ${self:custom.region}
         TableName: !Ref Timelines
+  AppsyncapiGraphQlDslikesTable:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: LikesTable
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+      DynamoDBConfig:
+        AwsRegion: ${self:custom.region}
+        TableName: !Ref Likes
