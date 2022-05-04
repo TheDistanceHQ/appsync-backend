@@ -1,0 +1,19 @@
+#if($context.arguments.limit > 25)
+  $util.error("Maximum limit is 25")
+#end
+{
+    "version" : "2018-05-29",
+    "operation" : "Query",
+    "query" : {
+      "expression": "userId = :userId",
+        "expressionValues" : {
+          ":userId" : $util.dynamodb.toDynamoDBJson($context.arguments.userId)
+        }
+    },
+    "limit": $util.toJson($context.arguments.limit),
+    "scanIndexForward": false,
+    "select": "ALL_ATTRIBUTES",
+    #if( ${context.arguments.nextToken} )
+      ,"nextToken": "${context.arguments.nextToken}"
+    #end
+}
