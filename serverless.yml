@@ -59,6 +59,31 @@ functions:
       - Effect: Allow
         Action: dynamodb:GetItem
         Resource: !GetAtt Tweets.Arn
+  unretweet:
+    handler: functions/unretweet.handler
+    environment:
+      USERS_TABLE: !Ref Users
+      TWEETS_TABLE: !Ref Tweets
+      TIMELINES_TABLE: !Ref Timelines
+      RETWEETS_TABLE: !Ref Retweets
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: 
+          - !GetAtt Users.Arn
+          - !GetAtt Tweets.Arn
+      - Effect: Allow
+        Action: dynamodb:DeleteItem
+        Resource:
+          - !GetAtt Tweets.Arn
+          - !GetAtt Retweets.Arn
+          - !GetAtt Timelines.Arn
+      - Effect: Allow
+        Action: dynamodb:GetItem
+        Resource: !GetAtt Tweets.Arn
+      - Effect: Allow
+        Action: dynamodb:Query
+        Resource: !Sub ${Tweets.Arn}/*
   tweet:
     handler: functions/tweets.handler
     environment:

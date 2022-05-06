@@ -63,3 +63,4 @@ Resources:
                   - !GetAtt GetImageUploadUrlLambdaFunction.Arn    
                   - !GetAtt TweetLambdaFunction.Arn
                   - !GetAtt RetweetLambdaFunction.Arn
+                  - !GetAtt UnretweetLambdaFunction.Arn
