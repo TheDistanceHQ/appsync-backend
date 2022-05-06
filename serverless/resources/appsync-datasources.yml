@@ -57,3 +57,12 @@ Resources:
       DynamoDBConfig:
         AwsRegion: ${self:custom.region}
         TableName: !Ref Likes
+  AppsyncapiGraphQlDsretweetFunction:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: Retweet
+      Type: AWS_LAMBDA
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
+      LambdaConfig:
+        LambdaFunctionArn: { Fn::GetAtt: [RetweetLambdaFunction, Arn] }

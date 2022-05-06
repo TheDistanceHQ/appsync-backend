@@ -37,12 +37,35 @@ functions:
           - S3:PutObject
           - S3:PutObjectAcl
         Resource: !Sub ${AssetBucket.Arn}/*
+  retweet:
+    handler: functions/retweets.handler
+    environment:
+      USERS_TABLE: !Ref Users
+      TWEETS_TABLE: !Ref Tweets
+      TIMELINES_TABLE: !Ref Timelines
+      RETWEETS_TABLE: !Ref Retweets
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:UpdateItem
+        Resource: 
+          - !GetAtt Users.Arn
+          - !GetAtt Tweets.Arn
+      - Effect: Allow
+        Action: dynamodb:PutItem
+        Resource:
+          - !GetAtt Tweets.Arn
+          - !GetAtt Retweets.Arn
+          - !GetAtt Timelines.Arn
+      - Effect: Allow
+        Action: dynamodb:GetItem
+        Resource: !GetAtt Tweets.Arn
   tweet:
     handler: functions/tweets.handler
     environment:
       USERS_TABLE: !Ref Users
       TWEETS_TABLE: !Ref Tweets
       TIMELINES_TABLE: !Ref Timelines
+      RETWEETS_TABLE: !Ref Retweets
     iamRoleStatements:
       - Effect: Allow
         Action: dynamodb:UpdateItem

@@ -33,6 +33,10 @@ datasources:
     name: tweetFunction
     config:
       functionName: tweet
+  - type: AWS_LAMBDA
+    name: retweetFunction
+    config:
+      functionName: retweet
 mappingTemplates:
 #QUERIES
   - type: Query
@@ -47,6 +51,9 @@ mappingTemplates:
     field: getTweets
     dataSource: tweetsTable
   - type: Query
+    field: getLikes
+    dataSource: likesTable
+  - type: Query
     field: getMyTimeline
     dataSource: timelinesTable
 #MUTATIONS
@@ -59,13 +66,27 @@ mappingTemplates:
     request: false
     response: false
   - type: Mutation
+    field: retweet
+    dataSource: retweetFunction
+    request: false
+    response: false
+  - type: Mutation
     field: like
+    dataSource: likesTable
+  - type: Mutation
+    field: unlike
     dataSource: likesTable
 #NESTED FIELDS
   - type: Tweet
     field: profile
     dataSource: usersTable
   - type: TimelinePage
+    field: tweets
+    dataSource: tweetsTable
+  - type: Tweet
+    field: liked
+    dataSource: likesTable
+  - type: MyProfile
     field: tweets
     dataSource: tweetsTable
 substitutions:
