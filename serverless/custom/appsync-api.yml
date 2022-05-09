@@ -41,6 +41,10 @@ datasources:
     name: unretweetFunction
     config:
       functionName: unretweet
+  - type: AWS_LAMBDA
+    name: replyFunction
+    config:
+      functionName: reply
 mappingTemplates:
 #QUERIES
   - type: Query
@@ -75,6 +79,11 @@ mappingTemplates:
     request: false
     response: false
   - type: Mutation
+    field: reply
+    dataSource: replyFunction
+    request: false
+    response: false
+  - type: Mutation
     field: unretweet
     dataSource: unretweetFunction
     request: false
@@ -95,6 +104,11 @@ mappingTemplates:
   - type: Tweet
     field: liked
     dataSource: likesTable
+  - type: Reply
+    field: liked
+    dataSource: likesTable
+    request: Tweet.liked.request.vtl
+    response: Tweet.liked.response.vtl
   - type: MyProfile
     field: tweets
     dataSource: tweetsTable
@@ -106,6 +120,17 @@ mappingTemplates:
   - type: Retweet
     field: retweetOf
     dataSource: tweetsTable
+  - type: Reply
+    field: profile
+    dataSource: usersTable
+    request: Tweet.Profile.request.vtl
+    response: Tweet.Profile.response.vtl
+  - type: Reply
+    field: inReplyToTweet
+    dataSource: tweetsTable
+  - type: Reply
+    field: inReplyToUsers
+    dataSource: usersTable
 substitutions:
   TweetsTable: !Ref Tweets
   LikesTable: !Ref Likes

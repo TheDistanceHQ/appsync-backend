@@ -75,3 +75,12 @@ Resources:
       ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
       LambdaConfig:
         LambdaFunctionArn: { Fn::GetAtt: [UnretweetLambdaFunction, Arn] }
+  AppsyncapiGraphQlDsreplyFunction:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: Reply
+      Type: AWS_LAMBDA
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
+      LambdaConfig:
+        LambdaFunctionArn: { Fn::GetAtt: [ReplyLambdaFunction, Arn] }

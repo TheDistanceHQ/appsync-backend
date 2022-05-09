@@ -64,3 +64,4 @@ Resources:
                   - !GetAtt TweetLambdaFunction.Arn
                   - !GetAtt RetweetLambdaFunction.Arn
                   - !GetAtt UnretweetLambdaFunction.Arn
+                  - !GetAtt ReplyLambdaFunction.Arn
