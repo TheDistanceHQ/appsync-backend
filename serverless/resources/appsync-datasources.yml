@@ -84,3 +84,13 @@ Resources:
       ServiceRoleArn: { Fn::GetAtt: [AppsyncLambdaInvokeRole, Arn] }
       LambdaConfig:
         LambdaFunctionArn: { Fn::GetAtt: [ReplyLambdaFunction, Arn] }
+  AppsyncapiGraphQlDsrelationshipsTable:
+    Type: "AWS::AppSync::DataSource"
+    Properties:
+      ApiId: !GetAtt AppsyncapiGraphQlApi.ApiId
+      Name: RelationshipsTable
+      Type: AMAZON_DYNAMODB
+      ServiceRoleArn: { Fn::GetAtt: [AppsyncDynamoDBRole, Arn] }
+      DynamoDBConfig:
+        AwsRegion: ${self:custom.region}
+        TableName: !Ref Relationships

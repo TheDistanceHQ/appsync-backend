@@ -25,6 +25,10 @@ datasources:
     name: likesTable
     config:
       tableName: { Ref: Likes }
+  - type: AMAZON_DYNAMODB
+    name: relationshipsTable
+    config:
+      tableName: { Ref: Relationships }
   - type: AWS_LAMBDA
     name: getImageUploadUrlFunction
     config:
@@ -64,6 +68,9 @@ mappingTemplates:
   - type: Query
     field: getMyTimeline
     dataSource: timelinesTable
+  - type: Query
+    field: getOtherProfile
+    dataSource: usersTable
 #MUTATIONS
   - type: Mutation
     field: editMyProfile
@@ -94,6 +101,11 @@ mappingTemplates:
   - type: Mutation
     field: unlike
     dataSource: likesTable
+  - type: Mutation
+    field: follow
+    dataSource: relationshipsTable
+  
+
 #NESTED FIELDS
   - type: Tweet
     field: profile
@@ -131,7 +143,14 @@ mappingTemplates:
   - type: Reply
     field: inReplyToUsers
     dataSource: usersTable
+  - type: OtherProfile
+    field: following
+    dataSource: relationshipsTable
+  - type: OtherProfile
+    field: followedBy
+    dataSource: relationshipsTable
 substitutions:
   TweetsTable: !Ref Tweets
   LikesTable: !Ref Likes
   UsersTable: !Ref Users
+  RelationshipsTable: !Ref Relationships
