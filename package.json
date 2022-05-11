@@ -7,7 +7,7 @@
     "integration-test": "jest --verbose ./__tests__/test_cases/integration",
     "e2e-test": "jest --verbose ./__tests__/test_cases/e2e",
     "unit-test": "jest --verbose ./__tests__/test_cases/unit",
-    "sls": "sls",
+    "sls": "sls --deploy",
     "build": "tsc -p tsconfig.build.json"
   },
   "repository": {

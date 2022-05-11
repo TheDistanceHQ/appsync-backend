@@ -14,7 +14,7 @@ export const HashTagModes = {
   LATEST: 'Latest'
 }
 
-export const DynamoDB = {
+export const BatchSize = {
   MAX_BATCH_SIZE: 25
 }
 

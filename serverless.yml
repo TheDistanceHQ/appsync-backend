@@ -120,6 +120,48 @@ functions:
       - Effect: Allow
         Action: dynamodb:GetItem
         Resource: !GetAtt Tweets.Arn
+  distributeTweets:
+    handler: functions/distribute-tweets.handler
+    environment:
+      RELATIONSHIPS_TABLE: !Ref Relationships
+      TIMELINES_TABLE: !Ref Timelines
+    events:
+      - stream:
+          type: dynamodb
+          arn: !GetAtt Tweets.StreamArn
+    iamRoleStatements:
+      - Effect: Allow
+        Action: 
+          - dynamodb:PutItem
+          - dynamodb:DeleteItem
+          - dynamodb:BatchWriteItem
+        Resource: !GetAtt Timelines.Arn
+      - Effect: Allow
+        Action: dynamodb:Query
+        Resource: !Sub "${Relationships.Arn}/index/byOtherUser"
+    distributeTweetsToFollower:
+      handler: functions/distribute-tweets-to-followers.handler
+      environment:
+        TWEETS_TABLE: !Ref Tweets
+        TIMELINES_TABLE: !Ref Timelines
+        MAX_TWEETS: "100"
+      events:
+        - stream:
+          type: dynamodb
+          arn: !GetAtt Relationships.StreamArn
+      iamRoleStatementsName: ${self:service}-${self:custom.stage}-distributeTweetsToFollower
+      iamRoleStatements:
+        - Effect: Allow
+          Action: dynamodb:Query
+          Resource:
+            - !Sub "${Tweets.Arn}/index/byCreator"
+            - !Sub "${Timelines.Arn}/index/byDistributedFrom"
+        - Effect: Allow
+          Action: 
+            - dynamodb:BatchWriteItem
+            - dynamodb:PutItem
+            - dynamodb:DeleteItem
+          Resource: !GetAtt Timelines.Arn
 resources:
   # Dynamo tables
   - ${file(serverless/resources/dynamo-tables.yml)}

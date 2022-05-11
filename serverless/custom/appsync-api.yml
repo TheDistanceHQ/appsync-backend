@@ -6,6 +6,11 @@ userPoolConfig:
   defaultAction: ALLOW
   userPoolId: !Ref AppsyncBackendUserPool
 mappingTemplatesLocation: mapping-templates
+functionConfigurations:
+  - name: getFollowers
+    dataSource: relationshipsTable
+  - name: hydrateFollowers
+    dataSource: usersTable
 datasources:
   - type: NONE
     name: none
@@ -71,6 +76,16 @@ mappingTemplates:
   - type: Query
     field: getOtherProfile
     dataSource: usersTable
+  - type: Query
+    field: getFollowers
+    kind: PIPELINE
+    functions:
+     - getFollowers
+     - hydrateFollowers
+    request: simplePipeline.request.vtl
+    response: simplePipeline.response.vtl
+
+    
 #MUTATIONS
   - type: Mutation
     field: editMyProfile
@@ -103,6 +118,9 @@ mappingTemplates:
     dataSource: likesTable
   - type: Mutation
     field: follow
+    dataSource: relationshipsTable
+  - type: Mutation
+    field: unfollow
     dataSource: relationshipsTable
   
 
